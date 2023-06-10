@@ -24,7 +24,10 @@ export function processDefineModel(
   node: Node,
   declId?: LVal
 ): boolean {
-  if (!ctx.options.defineModel || !isCallOf(node, DEFINE_MODEL)) {
+  if (
+    !ctx.options.defineModel ||
+    !isCallOf(node, ctx.macrosAliases[DEFINE_MODEL])
+  ) {
     return false
   }
 
