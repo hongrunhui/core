@@ -12,6 +12,9 @@
     }
   ],
   ignoreDeps: [
+    // ESM
+    'estree-walker',
+
     // manually bumping
     'node',
     'typescript'
