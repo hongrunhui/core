@@ -462,6 +462,7 @@ export function compileScript(
             node.declaration,
             scriptBindings,
             vueImportAliases,
+            ctx.macrosAliases,
             hoistStatic
           )
         }
@@ -477,6 +478,7 @@ export function compileScript(
           node,
           scriptBindings,
           vueImportAliases,
+          ctx.macrosAliases,
           hoistStatic
         )
       }
@@ -596,6 +598,7 @@ export function compileScript(
         node,
         setupBindings,
         vueImportAliases,
+        ctx.macrosAliases,
         hoistStatic
       )
     }
@@ -1054,6 +1057,7 @@ function walkDeclaration(
   node: Declaration,
   bindings: Record<string, BindingTypes>,
   userImportAliases: Record<string, string>,
+  macrosAliases: Record<string, string | undefined>,
   hoistStatic: boolean
 ): boolean {
   let isAllLiteral = false
@@ -1073,7 +1077,10 @@ function walkDeclaration(
         isConst &&
         isCallOf(
           init,
-          c => c === DEFINE_PROPS || c === DEFINE_EMITS || c === WITH_DEFAULTS
+          c =>
+            c === macrosAliases[DEFINE_PROPS] ||
+            c === macrosAliases[DEFINE_EMITS] ||
+            c === macrosAliases[WITH_DEFAULTS]
         )
       )
       if (id.type === 'Identifier') {
@@ -1108,7 +1115,7 @@ function walkDeclaration(
                 m === userImportAliases['shallowRef'] ||
                 m === userImportAliases['customRef'] ||
                 m === userImportAliases['toRef'] ||
-                m === DEFINE_MODEL
+                m === macrosAliases[DEFINE_MODEL]
             )
           ) {
             bindingType = BindingTypes.SETUP_REF
