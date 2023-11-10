@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "@vue/shared": "3.3.4",
-    "@vue/compiler-ssr": "3.3.4"
+    "@vue/compiler-ssr": "3.3.6"
   }
 }
